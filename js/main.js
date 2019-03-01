@@ -1,6 +1,6 @@
 $(document).ready(()=>{
 
-	updateROI("example")
+	updateROI("luxio")
 
 	$( "#search-form" ).submit(( event ) => {
 	  updateROI($("#search-user").val())
