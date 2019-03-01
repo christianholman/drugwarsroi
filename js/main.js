@@ -9,11 +9,13 @@ $(document).ready(()=>{
 
 
 	function updateROI(username) {
+		//Format username
+		username = username.toLowerCase().trim().replace("@", "")
 		//No username supplied
 		if(username == "") {
 			alert("No username supplied")
 		} else {
-			steem.api.getAccountHistory(username.trim().replace("@", ""), -1, 10000, (err, result) => {
+			steem.api.getAccountHistory(username, -1, 10000, (err, result) => {
 				if (err) alert (err)
 				var finalSpent = 0
 				var finalGained = 0
@@ -29,9 +31,9 @@ $(document).ready(()=>{
 				}
 				$("#steem-spent").text(finalSpent.toFixed(3) + " STEEM")
 				$("#steem-gained").text(finalGained.toFixed(3) + " STEEM")
-	          	$("#steem-roi").text(`${(finalGained - finalSpent).toFixed(3)} (${((finalGained / finalSpent) * 100).toFixed(2)}%)`)
+	          	$("#steem-roi").text(`${finalGained < finalSpent ? (finalGained - finalSpent).toFixed(3) : "+" + (finalGained - finalSpent).toFixed(3)} (${((finalGained / finalSpent) * 100).toFixed(2)}%)`)
 	          	$("#steem-roi").addClass(finalGained > finalSpent ? ()=>{ $(this).removeClass("text-red"); return "text-green"} : ()=>{$(this).removeClass("text-green"); return "text-red" })
-	          	$("#stats-title").text(`Stats for ${"@"+username.trim().replace("@","")}`)
+	          	$("#stats-title").text(`Stats for ${"@"+username}`)
 	        })
 		}
 	}
